@@ -17,7 +17,7 @@ import org.apache.log4j.net.SocketServer;
  * Created by xiaoyx on 2017/3/27.
  */
 public class HttpFileServer {
-    private static final String DEFAULT_URL = "/src/com/nettyStd/chapter10/part10p1";
+    private static final String DEFAULT_URL = "/src";
 
     public void run(final int port, final String url) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -36,7 +36,7 @@ public class HttpFileServer {
                         }
                     });
             ChannelFuture future = b.bind("127.0.0.1", port).sync();
-            System.out.println("HTTP 文件目录服务器启动，网址是 ： " + "http://127.0.0.1:");
+            System.out.println("HTTP 文件目录服务器启动，网址是 ： " + "http://127.0.0.1:"+port+url);
             future.channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();

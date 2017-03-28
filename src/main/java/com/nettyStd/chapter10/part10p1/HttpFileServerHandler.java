@@ -59,10 +59,13 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         }
         RandomAccessFile randomAccessFile = null;
         randomAccessFile = new RandomAccessFile(file, "r");
+        //获取文件长度
         long fileLength = randomAccessFile.length();
+        //在消息头中设置contentlength和content type
         HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         response.headers().setLong(HttpHeaderNames.CONTENT_LENGTH, fileLength);
         setContentTypeHeader(response, file);
+        //判断是否是keepalive，如果是则设置keep_alive
         if (!HttpHeaderUtil.isKeepAlive(request)) {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
@@ -113,7 +116,7 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         uri = uri.replace('/', File.separatorChar);
         if (uri.contains(File.separator + '.') || uri.contains('.' + File.separator) || INSECURE_URI.matcher(uri).matches())
             return null;
-        return System.getProperty("user.dir") + File.separator + uri;
+        return System.getProperty("user.dir") + uri;
     }
 
     private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[a-zA-Z0-9][-_a-zA-Z0-9\\.]*");
