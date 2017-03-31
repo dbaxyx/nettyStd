@@ -39,7 +39,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
     private void handleHttpRuest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
         //如果HTTP解码失败，返回HTTP异常
-        if (!req.decoderResult().isSuccess() || (!"Websocket".equals(req.headers().get("Upgrade")))) {
+        if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
             sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
             return;
         }
@@ -74,7 +74,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
         //返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
-        logger.info(String.format("%s recieved %s", ctx.channel()));
+        logger.info(String.format("%s recieved %s", ctx.channel(),request));
 
         ctx.channel().write(new TextWebSocketFrame(request + ",欢迎使用Netty WebSocket服务，现在时刻：" + new Date().toString()));
 

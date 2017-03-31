@@ -12,8 +12,6 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-import javax.jws.soap.SOAPBinding;
-
 /**
  * Created by xiaoyx on 2017/3/29.
  */
